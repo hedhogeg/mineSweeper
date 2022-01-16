@@ -1,0 +1,31 @@
+body {
+    display: flex;
+}
+
+aside {
+    width: 400px;
+    height: 60vh;
+    margin: 50px;
+    border: 3px solid black;
+    border-radius: 20px;
+}
+
+main {
+    height: 90vh;
+    padding: 50px;
+}
+
+table {
+    border-spacing: 0;
+}
+
+td {
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+td:hover {
+    background-color: lightgreen;
+}
