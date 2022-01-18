@@ -60,14 +60,16 @@ const openAround = (location) => {
         for (let j = location_col - 1; j < location_col + 2; j++) {
             if (0 <= i && i < row_num && 0 <= j && j < col_num) {
                 if (board[i][j]) {
-                    if (i != location_row || j != location_col) {
-                        if (board[i][j] == "0") {
-                            empty_space_list.push(`${i},${j}`)
-                            board[i][j] = ""
-                        } else {
-                            document.getElementById(`${i},${j}`).innerText = board[i][j]
-                        }
-                        document.getElementById(`${i},${j}`).className = "open"
+                    if (board[i][j] != "M") {
+                        if (i != location_row || j != location_col) {
+                            if (board[i][j] == "0") {
+                                empty_space_list.push(`${i},${j}`)
+                                board[i][j] = ""
+                            } else {
+                                document.getElementById(`${i},${j}`).innerText = board[i][j]
+                            }
+                            document.getElementById(`${i},${j}`).className = "open"
+                    }
                     }
                 }
             }
@@ -137,14 +139,31 @@ const leftClick = (event) => {
 
 const rightClick = (event) => {
     event.preventDefault()
-    if (board[event.target.id[0]][event.target.id[2]] != "") {
-        let right_target = event.target.className
-        if (right_target == "flaged") {
-            event.target.className = "question"
-        } else if (right_target == "question") {
-            event.target.className = ""
-        } else {
-            event.target.className = "flaged"
+    if (event.target.className == "open") {
+        console.log("hi")
+        const right_clicked_row = Number(event.target.id[0])
+        const right_clicked_col = Number(event.target.id[2])
+        let opened_space = 0
+        for (let i = right_clicked_row - 1; i < right_clicked_row + 2; i++) {
+            for (let j = right_clicked_col - 1; j < right_clicked_col + 2; j++) {
+                if (document.getElementById(`${i},${j}`).className == "flaged") {
+                    opened_space += 1
+                }
+            }
+        }
+        if (opened_space == Number(board[right_clicked_row][right_clicked_col])) {
+            openAround(`${right_clicked_row},${right_clicked_col}`)
+        }
+    } else {
+        if (board[event.target.id[0]][event.target.id[2]] != "") {
+            let right_target = event.target.className
+            if (right_target == "flaged") {
+                event.target.className = "question"
+            } else if (right_target == "question") {
+                event.target.className = ""
+            } else {
+                event.target.className = "flaged"
+            }
         }
     }
 }
