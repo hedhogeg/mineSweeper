@@ -44,10 +44,28 @@ table {
 td {
     height: 50px;
     width: 50px;
+    text-align: center;
+    font-size: 24px;
     border: 1px solid black;
-    cursor: pointer;
+    background-color: lightgray;
 }
 
 td:hover {
-    background-color: lightgreen;
+    opacity: 0.5;
+}
+
+.flaged {
+    background-color: red;
+}
+
+.question {
+    background-color: blue;
+}
+
+.open {
+    background-color: gray;
+}
+
+.mine {
+    background-color: black;
 }
