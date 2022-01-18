@@ -7,6 +7,16 @@ const mine_num = 10
 
 let mine_location_list = []
 
+const regame = () => {
+    location.reload()
+}
+
+const showMine = () => {
+    mine_location_list.forEach(location => {
+        document.getElementById(`${location[0]},${location[2]}`).className = "mine"
+    })
+    document.querySelector("table").style = "pointer-events: none;"
+}
 
 //Numbers next to mine
 const setNumber = (location, row_num, col_num) => {
@@ -92,7 +102,7 @@ const endGame = () => {
     if (!restart) {
         document.querySelector("table").style = "pointer-events: none;"
     } else {
-        location.reload()
+        regame()
     }
 }
 
@@ -140,20 +150,25 @@ const leftClick = (event) => {
 const rightClick = (event) => {
     event.preventDefault()
     if (event.target.className == "open") {
-        console.log("hi")
         const right_clicked_row = Number(event.target.id[0])
         const right_clicked_col = Number(event.target.id[2])
         let opened_space = 0
         for (let i = right_clicked_row - 1; i < right_clicked_row + 2; i++) {
             for (let j = right_clicked_col - 1; j < right_clicked_col + 2; j++) {
-                if (document.getElementById(`${i},${j}`).className == "flaged") {
-                    opened_space += 1
+                if (0 <= i && i < row_num && 0 <= j && j < col_num) {
+                    if (document.getElementById(`${i},${j}`).className == "flaged") {
+                        if (board[i][j] != "M") {
+                            endGame()
+                        }
+                        opened_space += 1
+                    }
                 }
             }
         }
         if (opened_space == Number(board[right_clicked_row][right_clicked_col])) {
             openAround(`${right_clicked_row},${right_clicked_col}`)
         }
+        checkEnd()
     } else {
         if (board[event.target.id[0]][event.target.id[2]] != "") {
             let right_target = event.target.className
