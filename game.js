@@ -13,15 +13,16 @@ const regame = () => {
 
 const showMine = () => {
     mine_location_list.forEach(location => {
-        document.getElementById(`${location[0]},${location[2]}`).className = "mine"
+        const location_list = location.split(",")
+        document.getElementById(`${location_list[0]},${location_list[1]}`).className = "mine"
     })
     document.querySelector("table").style = "pointer-events: none;"
 }
 
 //Numbers next to mine
 const setNumber = (location, row_num, col_num) => {
-    const location_of_row = Number(location[0])
-    const location_of_col = Number(location[2])
+    const location_of_row = location[0]
+    const location_of_col = location[1]
     for (let i = location_of_row - 1; i < location_of_row + 2; i++) {
         for (let j = location_of_col - 1; j < location_of_col + 2; j++) {
             if (0 <= i && i < row_num && 0 <= j && j < col_num) {
@@ -38,7 +39,7 @@ const setNumber = (location, row_num, col_num) => {
 const randomLocation = (row_num, col_num) => {
     const mine_row = Math.floor(Math.random() * row_num)
     const mine_col = Math.floor(Math.random() * col_num)
-    const mine_location = `${mine_row},${mine_col}`
+    const mine_location = [mine_row,mine_col]
     return mine_location
 }
 
@@ -50,14 +51,14 @@ const setMine = (first_around, row_num, col_num) => {
             current_location = randomLocation(row_num, col_num)
         }
         mine_location_list.push(current_location)
-        board[current_location[0]][current_location[2]] = "M"
+        board[current_location[0]][current_location[1]] = "M"
         setNumber(current_location, row_num, col_num)
     }
 }
 
 const openAround = (location) => {
     const location_row = Number(location[0])
-    const location_col = Number(location[2])
+    const location_col = Number(location[1])
     if (board[location_row][location_col] = "0") {
         board[location_row][location_col] = ""
         document.getElementById(`${location_row},${location_col}`).className = "open"
@@ -73,7 +74,7 @@ const openAround = (location) => {
                     if (board[i][j] != "M") {
                         if (i != location_row || j != location_col) {
                             if (board[i][j] == "0") {
-                                empty_space_list.push(`${i},${j}`)
+                                empty_space_list.push([i,j])
                                 board[i][j] = ""
                             } else {
                                 document.getElementById(`${i},${j}`).innerText = board[i][j]
@@ -91,7 +92,7 @@ const openAround = (location) => {
 const endGame = () => {
     //End
     mine_location_list.forEach(location => {
-        document.getElementById(`${location[0]},${location[2]}`).className = "mine"
+        document.getElementById(`${location[0]},${location[1]}`).className = "mine"
     })
     let restart = false
     if (End) {
@@ -118,13 +119,13 @@ const checkEnd = () => {
 const leftClick = (event) => {
     if (!gaming) {
         //First Click
-        const first_location = event.target.id
-        const first_row = first_location[0]
-        const first_col = first_location[2]
+        const first_location = event.target.id.split(",")
+        const first_row = Number(first_location[0])
+        const first_col = Number(first_location[1])
         let first_around = []
         for (let i = first_row - 1; i < first_row + 2; i++) {
             for (let j = first_col - 1; j < first_col + 2; j++) {
-                first_around.push(`${i},${j}`)
+                first_around.push([i,j])
             }
         }
         board[first_row][first_col] = "0"
@@ -134,13 +135,13 @@ const leftClick = (event) => {
 
     } else if (event.target.className != "open") {
         // Gaming
-        const clicked_location = event.target.id
-        if (board[clicked_location[0]][clicked_location[2]] == "M") {
+        const clicked_location = event.target.id.split(",")
+        if (board[clicked_location[0]][clicked_location[1]] == "M") {
             endGame()
-        } else if (board[clicked_location[0]][clicked_location[2]] == "0") {
+        } else if (board[clicked_location[0]][clicked_location[1]] == "0") {
             openAround(clicked_location)
         } else {
-            event.target.innerText = `${board[clicked_location[0]][clicked_location[2]]}`
+            event.target.innerText = `${board[clicked_location[0]][clicked_location[1]]}`
             event.target.className = "open"
             checkEnd()
         }
@@ -166,7 +167,7 @@ const rightClick = (event) => {
             }
         }
         if (opened_space == Number(board[right_clicked_row][right_clicked_col])) {
-            openAround(`${right_clicked_row},${right_clicked_col}`)
+            openAround([right_clicked_row,right_clicked_col])
         }
         checkEnd()
     } else {
