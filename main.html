@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./game.css">
+    <title>Mine Sweeper</title>
+</head>
+<body>
+    <main>
+        <div class="difficulty">
+            <button onclick="select('easy')">Easy</button>
+            <button onclick="select('normal')">Normal</button>
+            <button onclick="select('hard')">Hard</button>
+            <button onclick="select('custom')">Custom</button>
+            <div class="custom">
+                <input type="range" name="row" id="js-row"/>
+                <input type="range" name="col" id="js-col"/>
+                <input type="range" name="mine" id="js-mine"/>
+            </div>
+        </div>
+        <button onclick="gameStart()">Play</button>
+    </main>
+</body>
+
+<script src="./main.js"></script>
+
+</html>
