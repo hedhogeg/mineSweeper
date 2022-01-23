@@ -1,8 +1,9 @@
 let gaming = false
 let End = false
+let board = []
+const doc_screen = document.getElementById("js-table")
 const row_num = 9
 const col_num = 9
-
 const mine_num = 10
 
 let mine_location_list = []
@@ -13,8 +14,7 @@ const regame = () => {
 
 const showMine = () => {
     mine_location_list.forEach(location => {
-        const location_list = location.split(",")
-        document.getElementById(`${location_list[0]},${location_list[1]}`).className = "mine"
+        document.getElementById(`${location[0]},${location[1]}`).className = "mine"
     })
     document.querySelector("table").style = "pointer-events: none;"
 }
@@ -47,7 +47,7 @@ const randomLocation = (row_num, col_num) => {
 const setMine = (first_around, row_num, col_num) => {
     for (let i = mine_num; i > 0; i--) {
         let current_location = randomLocation(row_num, col_num)
-        while (mine_location_list.includes(current_location) || first_around.includes(current_location)) {
+        while ((mine_location_list.some(loc => loc[0] == current_location[0] && loc[1] == current_location[1])) || (first_around.some(loc => loc[0] == current_location[0] && loc[1] == current_location[1]))) {
             current_location = randomLocation(row_num, col_num)
         }
         mine_location_list.push(current_location)
@@ -57,8 +57,8 @@ const setMine = (first_around, row_num, col_num) => {
 }
 
 const openAround = (location) => {
-    const location_row = Number(location[0])
-    const location_col = Number(location[1])
+    const location_row = location[0]
+    const location_col = location[1]
     if (board[location_row][location_col] = "0") {
         board[location_row][location_col] = ""
         document.getElementById(`${location_row},${location_col}`).className = "open"
@@ -128,20 +128,21 @@ const leftClick = (event) => {
                 first_around.push([i,j])
             }
         }
-        board[first_row][first_col] = "0"
         setMine(first_around, row_num, col_num)
         gaming = true
         leftClick(event)
 
     } else if (event.target.className != "open") {
         // Gaming
-        const clicked_location = event.target.id.split(",")
-        if (board[clicked_location[0]][clicked_location[1]] == "M") {
+        const clicked_location_row = Number(event.target.id.split(",")[0])
+        const clicked_location_col = Number(event.target.id.split(",")[1])
+        const clicked_location = [clicked_location_row,clicked_location_col]
+        if (board[clicked_location_row][clicked_location_col] == "M") {
             endGame()
-        } else if (board[clicked_location[0]][clicked_location[1]] == "0") {
+        } else if (board[clicked_location_row][clicked_location_col] == "0") {
             openAround(clicked_location)
         } else {
-            event.target.innerText = `${board[clicked_location[0]][clicked_location[1]]}`
+            event.target.innerText = `${board[clicked_location_row][clicked_location_col]}`
             event.target.className = "open"
             checkEnd()
         }
@@ -150,9 +151,10 @@ const leftClick = (event) => {
 
 const rightClick = (event) => {
     event.preventDefault()
+    const right_clicked = event.target.id.split(",")
+    const right_clicked_row = Number(right_clicked[0])
+    const right_clicked_col = Number(right_clicked[1])
     if (event.target.className == "open") {
-        const right_clicked_row = Number(event.target.id[0])
-        const right_clicked_col = Number(event.target.id[2])
         let opened_space = 0
         for (let i = right_clicked_row - 1; i < right_clicked_row + 2; i++) {
             for (let j = right_clicked_col - 1; j < right_clicked_col + 2; j++) {
@@ -171,7 +173,7 @@ const rightClick = (event) => {
         }
         checkEnd()
     } else {
-        if (board[event.target.id[0]][event.target.id[2]] != "") {
+        if (board[right_clicked_row][right_clicked_col] != "") {
             let right_target = event.target.className
             if (right_target == "flaged") {
                 event.target.className = "question"
@@ -185,9 +187,6 @@ const rightClick = (event) => {
 }
 
 //Set board
-const doc_screen = document.getElementById("js-table")
-let board = []
-
 for (let i = 0; i < row_num; i++) {
     const doc_row = document.createElement("tr")
     doc_row.id = i
