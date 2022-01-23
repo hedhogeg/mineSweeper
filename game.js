@@ -1,7 +1,9 @@
 let gaming = false
 let End = false
+let restart = false
 let board = []
-const doc_screen = document.getElementById("js-table")
+
+const doc_screen = document.getElementById("board")
 const row_num = 9
 const col_num = 9
 const mine_num = 10
@@ -61,10 +63,10 @@ const openAround = (location) => {
     const location_col = location[1]
     if (board[location_row][location_col] = "0") {
         board[location_row][location_col] = ""
-        document.getElementById(`${location_row},${location_col}`).className = "open"
+        document.getElementById(`${location_row},${location_col}`).classList.add("open")
     } else {
         document.getElementById(`${location_row},${location_col}`).innerText = board[i][j]
-        document.getElementById(`${location_row},${location_col}`).className = "open"
+        document.getElementById(`${location_row},${location_col}`).classList.add("open")
     }
     let empty_space_list = []
     for (let i = location_row - 1; i < location_row + 2; i++) {
@@ -79,7 +81,7 @@ const openAround = (location) => {
                             } else {
                                 document.getElementById(`${i},${j}`).innerText = board[i][j]
                             }
-                            document.getElementById(`${i},${j}`).className = "open"
+                            document.getElementById(`${i},${j}`).classList.add("open")
                     }
                     }
                 }
@@ -89,21 +91,33 @@ const openAround = (location) => {
     empty_space_list.forEach(location => {openAround(location)})
 }
 
+const restartGame = (bool) => {
+    if (bool == 0) {
+        const doc_end_screen = document.getElementById("end_screen")
+        doc_end_screen.style.display = "none"
+    } else if (bool == 1) {
+        regame()
+    } else {
+        console.log("error")
+    }
+}
+
+const endScreen = (string) => {
+    const doc_end_screen = document.getElementById("end_screen")
+    doc_end_screen.style.display = "block"
+    const doc_end_message = document.getElementById("end_message")
+    doc_end_message.innerText = string
+}
+
 const endGame = () => {
     //End
-    mine_location_list.forEach(location => {
-        document.getElementById(`${location[0]},${location[1]}`).className = "mine"
-    })
-    let restart = false
     if (End) {
-        restart = confirm("Congratulation! restart?")
+        endScreen("Congratulation! restart?")
     } else {
-        restart = confirm("Boom! restart?")
-    }
-    if (!restart) {
-        document.querySelector("table").style = "pointer-events: none;"
-    } else {
-        regame()
+        mine_location_list.forEach(location => {
+            document.getElementById(`${location[0]},${location[1]}`).classList.add('mine')
+        })
+        endScreen("Boom! restart?")
     }
 }
 
@@ -143,7 +157,7 @@ const leftClick = (event) => {
             openAround(clicked_location)
         } else {
             event.target.innerText = `${board[clicked_location_row][clicked_location_col]}`
-            event.target.className = "open"
+            event.target.classList.add("open")
             checkEnd()
         }
     }
@@ -151,36 +165,40 @@ const leftClick = (event) => {
 
 const rightClick = (event) => {
     event.preventDefault()
-    const right_clicked = event.target.id.split(",")
-    const right_clicked_row = Number(right_clicked[0])
-    const right_clicked_col = Number(right_clicked[1])
-    if (event.target.className == "open") {
-        let opened_space = 0
-        for (let i = right_clicked_row - 1; i < right_clicked_row + 2; i++) {
-            for (let j = right_clicked_col - 1; j < right_clicked_col + 2; j++) {
-                if (0 <= i && i < row_num && 0 <= j && j < col_num) {
-                    if (document.getElementById(`${i},${j}`).className == "flaged") {
-                        if (board[i][j] != "M") {
-                            endGame()
+    if (gaming) {
+        const right_clicked = event.target.id.split(",")
+        const right_clicked_row = Number(right_clicked[0])
+        const right_clicked_col = Number(right_clicked[1])
+        const isOpen = event.target.classList.contains('open')
+        if (isOpen) {
+            let flaged_space = 0
+            for (let i = right_clicked_row - 1; i < right_clicked_row + 2; i++) {
+                for (let j = right_clicked_col - 1; j < right_clicked_col + 2; j++) {
+                    if (0 <= i && i < row_num && 0 <= j && j < col_num) {
+                        if (document.getElementById(`${i},${j}`).classList.contains('flaged')) {
+                            if (board[i][j] != "M") {
+                                endGame()
+                            }
+                            flaged_space += 1
                         }
-                        opened_space += 1
                     }
                 }
             }
-        }
-        if (opened_space == Number(board[right_clicked_row][right_clicked_col])) {
-            openAround([right_clicked_row,right_clicked_col])
-        }
-        checkEnd()
-    } else {
-        if (board[right_clicked_row][right_clicked_col] != "") {
-            let right_target = event.target.className
-            if (right_target == "flaged") {
-                event.target.className = "question"
-            } else if (right_target == "question") {
-                event.target.className = ""
-            } else {
-                event.target.className = "flaged"
+            if (flaged_space == Number(board[right_clicked_row][right_clicked_col])) {
+                openAround([right_clicked_row,right_clicked_col])
+            }
+            checkEnd()
+        } else {
+            if (board[right_clicked_row][right_clicked_col] != "") {
+                let right_target = event.target.classList
+                if (right_target.contains('flaged')) {
+                    event.target.classList.remove("flaged")
+                    event.target.classList.add("question")
+                } else if (right_target.contains('question')) {
+                    event.target.classList.remove("question")
+                } else {
+                    event.target.classList.add("flaged")
+                }
             }
         }
     }
@@ -188,13 +206,15 @@ const rightClick = (event) => {
 
 //Set board
 for (let i = 0; i < row_num; i++) {
-    const doc_row = document.createElement("tr")
+    const doc_row = document.createElement("div")
     doc_row.id = i
+    doc_row.className = "board_row"
     let row = []
 
     for (let j = 0; j < col_num; j++) {
-        const doc_space = document.createElement("td")
+        const doc_space = document.createElement("div")
         doc_space.id = `${i},${j}`
+        doc_space.className = "board_space"
         doc_space.addEventListener("click", leftClick)
         doc_space.addEventListener("contextmenu", rightClick)
         doc_row.appendChild(doc_space)
