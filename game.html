@@ -9,6 +9,9 @@
 
 <body>
     <aside>
+        <div>
+            <span id="mine_left"></span>
+        </div>
         <ul>
             <li onclick="regame()">다시하기</li>
             <li onclick="showMine()">답</li>
@@ -18,9 +21,11 @@
     <main>
         <div id="board">
             <div id="end_screen" style="display: none;">
-                <span id="end_message"></span>
-                <button onclick="restartGame(1)">확인</button>
-                <button onclick="restartGame(0)">취소</button>
+                <div class="end_main">
+                    <span id="end_message"></span>
+                    <button onclick="restartGame(1)">확인</button>
+                    <button onclick="restartGame(0)">취소</button>
+                </div>
             </div>
         </div>
     </main>

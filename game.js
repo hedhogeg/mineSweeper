@@ -4,8 +4,8 @@ let restart = false
 let board = []
 
 const doc_screen = document.getElementById("board")
-const row_num = 9
-const col_num = 9
+const row_num = 10
+const col_num = 10
 const mine_num = 10
 
 let mine_location_list = []
@@ -95,6 +95,7 @@ const restartGame = (bool) => {
     if (bool == 0) {
         const doc_end_screen = document.getElementById("end_screen")
         doc_end_screen.style.display = "none"
+        document.getElementById("board").style = "pointer-events: none;"
     } else if (bool == 1) {
         regame()
     } else {
@@ -128,6 +129,12 @@ const checkEnd = () => {
         End = true
         endGame()
     }
+}
+
+const checkMines = () => {
+    const flaged_list = document.getElementsByClassName("flaged")
+    const doc_mine_left = document.getElementById("mine_left")
+    doc_mine_left.innerText = `Mine : ${mine_num - flaged_list.length}`
 }
 
 const leftClick = (event) => {
@@ -200,6 +207,7 @@ const rightClick = (event) => {
                     event.target.classList.add("flaged")
                 }
             }
+            checkMines()
         }
     }
 }
@@ -224,3 +232,4 @@ for (let i = 0; i < row_num; i++) {
     doc_screen.appendChild(doc_row)
     board.push(row)
 }
+checkMines()
