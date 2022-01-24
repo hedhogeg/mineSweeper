@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./game.css">
+    <title>Mine Sweeper</title>
+</head>
+
+<body>
+    <aside>
+        <div>
+            <span id="mine_left"></span>
+        </div>
+        <ul>
+            <li onclick="regame()">다시하기</li>
+            <li onclick="showMine()">답</li>
+            <li>메인 메뉴</li>
+        </ul>
+    </aside>
+    <main>
+        <div id="board">
+            <div id="end_screen" style="display: none;">
+                <div class="end_main">
+                    <span id="end_message"></span>
+                    <button onclick="restartGame(1)">확인</button>
+                    <button onclick="restartGame(0)">취소</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+<script src="./game.js"></script>
+
+</html>
