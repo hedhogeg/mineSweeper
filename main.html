@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./main.css">
+    <title>Mine Sweeper</title>
+</head>
+<body>
+    <main>
+        <span class="title">Mine Sweeper</span>
+        <div class="difficulty">
+            <div class="buttons">
+                <button onclick="select('easy')" id="easy">Easy</button>
+                <button onclick="select('normal')" id="normal">Normal</button>
+                <button onclick="select('hard')" id="hard">Hard</button>
+                <button onclick="select('custom')" id="custom">Custom</button>
+            </div>
+            <div id="custom_box" class="custom" style="visibility: hidden;">
+                <div class="range">
+                    <label for="row">Row</label>
+                    <input type="text" name="row" id="row"/>
+                </div>
+                <div class="range">
+                    <label for="col">Col</label>
+                    <input type="text" name="col" id="col"/>
+                </div>
+                <div class="range">
+                    <label for="mine">Mine</label>
+                    <input type="text" name="mine" id="mine"/>
+                </div>
+            </div>
+        </div>
+        <div class="startButton">
+            <button onclick="gameStart()">Play</button>
+        </div>
+    </main>
+</body>
+
+<script src="./main.js"></script>
+
+</html>
