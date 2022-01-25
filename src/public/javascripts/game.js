@@ -18,7 +18,7 @@ const regame = () => {
 
 const showMine = () => {
     mine_location_list.forEach(location => {
-        document.getElementById(`${location[0]},${location[1]}`).className = "mine"
+        document.getElementById(`${location[0]},${location[1]}`).classList.add("mine")
     })
     document.querySelector("table").style = "pointer-events: none;"
 }
