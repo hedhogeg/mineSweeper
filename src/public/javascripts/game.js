@@ -1,12 +1,14 @@
+const querys = new URLSearchParams(location.search)
+
 let gaming = false
 let End = false
 let restart = false
 let board = []
 
 const doc_screen = document.getElementById("board")
-const row_num = 10
-const col_num = 10
-const mine_num = 10
+const row_num = querys.get("row")
+const col_num = querys.get("col")
+const mine_num = querys.get("mine")
 
 let mine_location_list = []
 
@@ -19,6 +21,10 @@ const showMine = () => {
         document.getElementById(`${location[0]},${location[1]}`).className = "mine"
     })
     document.querySelector("table").style = "pointer-events: none;"
+}
+
+const mainMenu = () => {
+    location.replace("/")
 }
 
 //Numbers next to mine

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
     <title>Mine Sweeper</title>
 </head>
 <body>
@@ -16,7 +16,7 @@
                 <button onclick="select('hard')" id="hard">Hard</button>
                 <button onclick="select('custom')" id="custom">Custom</button>
             </div>
-            <div id="custom_box" class="custom" style="visibility: hidden;">
+            <form method="get" action="/game" id="custom_box" class="custom" style="visibility: hidden;">
                 <div class="range">
                     <label for="row">Row</label>
                     <input type="text" name="row" id="row"/>
@@ -29,7 +29,7 @@
                     <label for="mine">Mine</label>
                     <input type="text" name="mine" id="mine"/>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="startButton">
             <button onclick="gameStart()">Play</button>
@@ -37,6 +37,6 @@
     </main>
 </body>
 
-<script src="./main.js"></script>
+<script src="javascripts/main.js"></script>
 
 </html>

@@ -95,11 +95,11 @@ main {
 }
 
 .flaged {
-    background-image: url(./images/flag.png);
+    background-image: url(../images/flag.png);
 }
 
 .question {
-    background-image: url(./images/question.png);
+    background-image: url(../images/question.png);
 }
 
 .open {
@@ -107,5 +107,5 @@ main {
 }
 
 .mine {
-    background-image: url(./images/mine.png);
+    background-image: url(../images/mine.png);
 }
