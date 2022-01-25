@@ -1,3 +1,4 @@
+const e = require('express');
 var express = require('express');
 var router = express.Router();
 
@@ -7,7 +8,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/game', function(req, res, next) {
-  res.render('game');
+  if (!req.query.row || !req.query.col || !req.query.mine) {
+    res.redirect('/')
+  } else {
+    res.render('game')
+  }
 });
 
 module.exports = router;
