@@ -17,27 +17,27 @@
                     <button onclick="select('hard')" id="hard">Hard</button>
                     <button onclick="select('custom')" id="custom">Custom</button>
                 </div>
-                <form method="get" action="/game" id="custom_box" class="custom" style="visibility: hidden;">
-                    <div class="range">
-                        <label for="row">Row</label>
-                        <input type="range" step="1" min="9" max="30" name="row" id="row" oninput="changeRange('row')"/>
-                        <label for="row" id="row_label"></label>
-                    </div>
-                    <div class="range">
-                        <label for="col">Col</label>
-                        <input type="range" step="1" min="9" max="30" name="col" id="col" oninput="changeRange('col')"/>
-                        <label for="col" id="col_label"></label>
-                    </div>
-                    <div class="range">
-                        <label for="mine">Mine</label>
-                        <input type="range" step="1" min="9" name="mine" id="mine" oninput="changeRange('mine')"/>
-                        <label for="mine" id="mine_label"></label>
-                    </div>
-                </form>
+                <div class="preview_container">
+                    <div class="preview" id="preview_screen"></div>
+                </div>
             </div>
-            <div class="preview_container">
-                <div class="preview" id="preview_screen"></div>
-            </div>
+            <form method="get" action="/game" id="custom_box" class="custom" style="visibility: hidden;">
+                <div class="range">
+                    <label for="row">Row</label>
+                    <input type="range" step="1" min="9" max="30" name="row" id="row" value="15" oninput="changeRange('row')"/>
+                    <label for="row" id="row_label"></label>
+                </div>
+                <div class="range">
+                    <label for="col">Col</label>
+                    <input type="range" step="1" min="9" max="30" name="col" id="col" value="15" oninput="changeRange('col')"/>
+                    <label for="col" id="col_label"></label>
+                </div>
+                <div class="range">
+                    <label for="mine">Mine</label>
+                    <input type="range" step="1" min="9" name="mine" id="mine" value="30" oninput="changeRange('mine')"/>
+                    <label for="mine" id="mine_label"></label>
+                </div>
+            </form>
         </div>
         <div class="startButton">
             <button onclick="gameStart()">Play</button>

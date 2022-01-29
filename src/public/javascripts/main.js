@@ -64,6 +64,12 @@ const previewScreen = () => {
     }
 }
 
+const showValue = (string) => {
+    const doc_target = document.getElementById(`${string}`)
+    const label = document.getElementById(`${string}_label`)
+    label.innerText = doc_target.value
+}
+
 const select = (dif) => {
     const doc_custom = document.getElementById("custom_box")
     if (dif == 'easy') {
@@ -84,12 +90,8 @@ const select = (dif) => {
     }
     setSelected(dif)
     previewScreen()
-}
-
-const showValue = (string) => {
-    const doc_target = document.getElementById(`${string}`)
-    const label = document.getElementById(`${string}_label`)
-    label.innerText = doc_target.value
+    const value_list = ['row', 'col', 'mine']
+    value_list.forEach(value => showValue(value))
 }
 
 const changeRange = (string) => {
