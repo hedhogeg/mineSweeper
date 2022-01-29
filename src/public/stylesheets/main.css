@@ -1,7 +1,7 @@
 main {
     margin: 20vh auto;
     height: 50vh;
-    width: 30vw;
+    width: 40vw;
     padding: 20px;
     border: 3px solid black;
     border-radius: 20px;
@@ -18,9 +18,13 @@ main {
     font-size: 40px;
 }
 
-.difficulty {
-    width: 400px;
+.dif_container {
     flex: 4;
+    display: flex;
+}
+
+.difficulty {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,6 +41,26 @@ main {
     text-align: left;
     width: 200px;
     height: 30px;
+}
+
+.preview_container {
+    flex: 1;
+}
+
+.preview {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview_row {
+    display: flex;
+}
+
+.preview_space {
+    width: 6px;
+    height: 6px;
+    background-color: black;
+    margin: 1px;
 }
 
 .custom {
@@ -70,4 +94,8 @@ main {
     background-size: 20px;
     background-position: 170px;
     background-repeat: no-repeat;
+}
+
+.preview_mine {
+    background-color: red;
 }

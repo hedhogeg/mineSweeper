@@ -24,6 +24,46 @@ const setGame = (row, col, mine) => {
     mine_set.value = mine
 }
 
+const randomLocation = (row_num, col_num) => {
+    const mine_row = Math.floor(Math.random() * row_num)
+    const mine_col = Math.floor(Math.random() * col_num)
+    const mine_location = [mine_row,mine_col]
+    return mine_location
+}
+
+const previewScreen = () => {
+    const doc_row_input = document.getElementById('row').value
+    const doc_col_input = document.getElementById('col').value
+    const doc_mine_input = document.getElementById('mine').value
+
+    const doc_preview_screen = document.getElementById('preview_screen')
+    while (doc_preview_screen.hasChildNodes()) {
+        doc_preview_screen.firstChild.remove()
+    }
+    for (let i = 0; i < doc_row_input; i++) {
+        const preview_row = document.createElement("div")
+        preview_row.className = "preview_row"
+        for (let j = 0; j < doc_col_input; j++) {
+            const preview_space = document.createElement("div")
+            preview_space.id = `${i},${j}`
+            preview_space.className = "preview_space"
+            preview_row.appendChild(preview_space)
+        }
+        doc_preview_screen.appendChild(preview_row) 
+    }
+    
+    let mine_location_list = []
+    for (let i = doc_mine_input; i > 0; i--) {
+        let current_location = randomLocation(doc_row_input, doc_col_input)
+        while (mine_location_list.some(loc => loc[0] == current_location[0] && loc[1] == current_location[1])) {
+            current_location = randomLocation(doc_row_input, doc_col_input)
+        }
+        mine_location_list.push(current_location)
+        const current_space = document.getElementById(`${current_location[0]},${current_location[1]}`)
+        current_space.classList.add("preview_mine")
+    }
+}
+
 const select = (dif) => {
     const doc_custom = document.getElementById("custom_box")
     if (dif == 'easy') {
@@ -43,12 +83,18 @@ const select = (dif) => {
         doc_custom.setAttribute("style", "visibility: visible;")
     }
     setSelected(dif)
+    previewScreen()
 }
 
 const showValue = (string) => {
     const doc_target = document.getElementById(`${string}`)
     const label = document.getElementById(`${string}_label`)
     label.innerText = doc_target.value
+}
+
+const changeRange = (string) => {
+    showValue(string)
+    previewScreen()
 }
 
 const setMaxMine = () => {
