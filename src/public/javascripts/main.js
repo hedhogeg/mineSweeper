@@ -45,12 +45,25 @@ const select = (dif) => {
     setSelected(dif)
 }
 
+const showValue = (string) => {
+    const doc_target = document.getElementById(`${string}`)
+    const label = document.getElementById(`${string}_label`)
+    label.innerText = doc_target.value
+}
+
 const setMaxMine = () => {
     // max number of mine
     row_num = document.getElementById("row").value
     col_num = document.getElementById("col").value
     mine_max = Math.floor(row_num * col_num / 4.5)
-    console.log(mine_max)
+    const doc_mine_max = document.getElementById("mine")
+    const doc_mine_value = doc_mine_max.value
+    doc_mine_max.setAttribute("max", mine_max)
+    if (doc_mine_value > mine_max) {
+        doc_mine_max.value = mine_max
+        const label = document.getElementById('mine_label')
+        label.innerText = mine_max
+    }
 }
 
 const gameStart = () => {
